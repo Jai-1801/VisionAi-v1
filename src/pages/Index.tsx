@@ -1,13 +1,36 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { HelmetProvider, Helmet } from "react-helmet-async";
+import Navbar from "@/components/layout/Navbar";
+import HeroSection from "@/components/sections/HeroSection";
+import FeaturesSection from "@/components/sections/FeaturesSection";
+import HowItWorksSection from "@/components/sections/HowItWorksSection";
+import AnalysisSection from "@/components/sections/AnalysisSection";
+import CTASection from "@/components/sections/CTASection";
+import Footer from "@/components/layout/Footer";
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <HelmetProvider>
+      <Helmet>
+        <title>VisionEstate - AI-Powered Real Estate Analyzer</title>
+        <meta 
+          name="description" 
+          content="VisionEstate uses deep learning and computer vision to verify property ownership, estimate accurate floor areas, and detect hidden defects. Eliminate the trust gap in real estate." 
+        />
+        <meta name="keywords" content="real estate AI, property verification, computer vision, document verification, 3D area estimation, property quality analysis" />
+      </Helmet>
+      
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <main>
+          <HeroSection />
+          <FeaturesSection />
+          <HowItWorksSection />
+          <AnalysisSection />
+          <CTASection />
+        </main>
+        <Footer />
       </div>
-    </div>
+    </HelmetProvider>
   );
 };
 
