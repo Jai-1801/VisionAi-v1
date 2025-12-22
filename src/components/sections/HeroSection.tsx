@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   const highlights = [
@@ -47,10 +48,11 @@ const HeroSection = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
-            <Button variant="hero" size="xl">
-              Analyze Property
-              <ArrowRight className="w-4 h-4" />
-            </Button>
+           <Link to="/analysis">
+  <Button size="lg" className="rounded-full px-8">
+    Analyze Property
+  </Button>
+</Link>
             <Button variant="heroOutline" size="xl">
               View Demo
             </Button>
