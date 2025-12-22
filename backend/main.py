@@ -6,18 +6,12 @@ import os
 from analyzer import detect_defects
 
 app = FastAPI()
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
 
 @app.post("/reconstruct-room")
 async def reconstruct_room(files: List[UploadFile] = File(...)):
+    per_image_results = []
     all_spatial = []
-    all_detections = []
     calibration_status = False
     
     for file in files:
@@ -26,10 +20,12 @@ async def reconstruct_room(files: List[UploadFile] = File(...)):
             shutil.copyfileobj(file.file, buffer)
         
         try:
-            # Now returns 3 values
-            detections, spatial, calibrated = detect_defects(temp_path)
+            detections, spatial, calibrated, img_size = detect_defects(temp_path)
+            per_image_results.append({
+                "detections": detections,
+                "img_size": img_size # [h, w]
+            })
             all_spatial.append(spatial)
-            all_detections.extend(detections)
             if calibrated: calibration_status = True
         finally:
             if os.path.exists(temp_path):
@@ -43,8 +39,7 @@ async def reconstruct_room(files: List[UploadFile] = File(...)):
     fused_spatial["area"] = round(fused_spatial["width"] * fused_spatial["length"], 2)
 
     return {
-        "status": "Verified",
-        "analysis_results": all_detections,
+        "analysis_results": per_image_results,
         "spatial_data": fused_spatial,
         "is_calibrated": calibration_status
     }
