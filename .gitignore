@@ -28,3 +28,13 @@ dist-ssr
 venv/
 ENV/
 env/
+
+# Large model files
+*.pt
+*.pth
+*.h5
+*.onnx
+
+# Backend data
+backend/uploads/
+backend/documents/
