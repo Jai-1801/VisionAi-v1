@@ -1,76 +1,135 @@
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight, Check, MapPin, Search, Shield } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const HeroSection = () => {
-  const highlights = [
-    "Document Verification",
-    "3D Area Estimation", 
-    "Quality Detection",
-  ];
-
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      {/* Subtle Background */}
-      <div className="absolute inset-0 bg-dot-pattern opacity-40" />
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px]" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
+    <section className="min-h-[90vh] flex items-center bg-warm">
+      <div className="container-main w-full py-12 md:py-20">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 mb-8 animate-fade-in-up">
-            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-soft" />
-            <span className="text-sm text-muted-foreground font-medium">AI-Powered Property Intelligence</span>
-          </div>
+          {/* Left: Content */}
+          <div className="order-2 lg:order-1 space-y-6 md:space-y-8">
+            {/* Small tagline */}
+            <div className="flex items-center gap-2 text-muted-foreground text-sm">
+              <Shield className="w-4 h-4 text-accent" />
+              <span>Verified real estate marketplace</span>
+            </div>
 
-          {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-display font-bold leading-[1.1] mb-6 animate-fade-in-up" style={{ animationDelay: "0.1s" }}>
-            <span className="text-foreground">Verify properties</span>
-            <br />
-            <span className="gradient-text">with AI precision</span>
-          </h1>
+            {/* Main heading - editorial style */}
+            <h1 className="text-foreground leading-tight">
+              Find your next
+              <br />
+              <span className="text-primary">home</span>, verified
+            </h1>
 
-          {/* Description */}
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 animate-fade-in-up leading-relaxed" style={{ animationDelay: "0.2s" }}>
-            VisionEstate uses deep learning to verify ownership, estimate floor areas, and detect hidden defects—replacing manual inspections with trusted insights.
-          </p>
+            {/* Description - conversational */}
+            <p className="text-muted-foreground max-w-md text-lg leading-relaxed">
+              We verify every property before it's listed. No surprises, no false claims.
+              Just honest listings you can trust.
+            </p>
 
-          {/* Highlights */}
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-10 animate-fade-in-up" style={{ animationDelay: "0.3s" }}>
-            {highlights.map((item) => (
-              <div key={item} className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Check className="w-4 h-4 text-primary" />
-                {item}
+            {/* Trust points */}
+            <div className="flex flex-col sm:flex-row gap-4 text-sm text-muted-foreground">
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-accent" />
+                <span>AI-verified dimensions</span>
               </div>
-            ))}
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-accent" />
+                <span>Condition assessed</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Check className="w-4 h-4 text-accent" />
+                <span>Authentic photos</span>
+              </div>
+            </div>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-3 pt-2">
+              <Link to="/marketplace" className="w-full sm:w-auto">
+                <Button className="w-full sm:w-auto btn-black text-base h-12">
+                  <Search className="w-4 h-4 mr-2" />
+                  Browse properties
+                </Button>
+              </Link>
+              <Link to="/list-property" className="w-full sm:w-auto">
+                <Button variant="outline" className="w-full sm:w-auto h-12 text-base border-2">
+                  List your property
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </Link>
+            </div>
+
+            {/* Simple stats */}
+            <div className="flex gap-8 pt-4 text-sm">
+              <div>
+                <div className="text-2xl font-semibold text-foreground">100%</div>
+                <div className="text-muted-foreground">Verified</div>
+              </div>
+              <div>
+                <div className="text-2xl font-semibold text-foreground">0</div>
+                <div className="text-muted-foreground">False listings</div>
+              </div>
+              <div>
+                <div className="text-2xl font-semibold text-foreground">24h</div>
+                <div className="text-muted-foreground">Avg. verification</div>
+              </div>
+            </div>
           </div>
 
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up" style={{ animationDelay: "0.4s" }}>
-           <Link to="/analysis">
-  <Button size="lg" className="rounded-full px-8">
-    Analyze Property
-  </Button>
-</Link>
-            <Button variant="heroOutline" size="xl">
-              View Demo
-            </Button>
-          </div>
+          {/* Right: Image Grid */}
+          <div className="order-1 lg:order-2">
+            <div className="grid grid-cols-12 gap-3 sm:gap-4">
+              {/* Main large image */}
+              <div className="col-span-12 sm:col-span-8 row-span-2">
+                <div className="relative rounded-lg overflow-hidden shadow-warm aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5]">
+                  <img
+                    src="https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=85"
+                    alt="Modern home interior"
+                    className="img-cover"
+                    loading="eager"
+                  />
+                  {/* Simple overlay card */}
+                  <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-md p-4 shadow-sm">
+                    <div className="flex items-start justify-between">
+                      <div>
+                        <div className="text-sm font-medium text-foreground">Modern Villa</div>
+                        <div className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
+                          <MapPin className="w-3 h-3" />
+                          Bandra, Mumbai
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div className="text-sm font-semibold text-primary">₹2.5 Cr</div>
+                        <span className="badge-verified text-[10px]">Verified</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 mt-20 pt-10 border-t border-border stagger-children">
-            <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-display font-bold text-foreground">96.5%</div>
-              <div className="text-sm text-muted-foreground mt-1">Detection Accuracy</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-display font-bold text-foreground">60%</div>
-              <div className="text-sm text-muted-foreground mt-1">Faster Analysis</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl sm:text-4xl font-display font-bold text-foreground">100%</div>
-              <div className="text-sm text-muted-foreground mt-1">Objective Results</div>
+              {/* Small images - hidden on very small screens */}
+              <div className="hidden sm:block col-span-4">
+                <div className="rounded-lg overflow-hidden shadow-warm aspect-square">
+                  <img
+                    src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=400&q=80"
+                    alt="Living room"
+                    className="img-cover"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
+              <div className="hidden sm:block col-span-4">
+                <div className="rounded-lg overflow-hidden shadow-warm aspect-square">
+                  <img
+                    src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=400&q=80"
+                    alt="Kitchen"
+                    className="img-cover"
+                    loading="lazy"
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </div>

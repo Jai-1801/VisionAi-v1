@@ -1,10 +1,17 @@
 import { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Plus, LogOut, User, ShieldCheck } from "lucide-react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const { user, signOut } = useAuth();
+
+  // Check if user is admin (simple check - email contains 'admin')
+  const isAdmin = user?.email?.toLowerCase().includes('admin');
 
   useEffect(() => {
     const handleScroll = () => {
@@ -15,86 +22,163 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: "Features", href: "/" },
-    { name: "How It Works", href: "#how-it-works" },
-    { name: "Analysis", href: "/analysis"},
-    { name: "About", href: "#about" },
+    { name: "Home", href: "/" },
+    { name: "Properties", href: "/marketplace" },
   ];
+
+  const isActive = (href: string) => {
+    if (href === "/") return location.pathname === "/";
+    if (href.includes("#")) return false;
+    return location.pathname.startsWith(href);
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+    setIsMobileMenuOpen(false);
+  };
 
   return (
     <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled
-          ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-sm"
-          : "bg-transparent"
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${isScrolled
+        ? "bg-background/98 border-b border-border shadow-sm"
+        : "bg-transparent"
+        }`}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16 lg:h-20">
+      <div className="container-main">
+        <div className="flex items-center justify-between h-16 md:h-18">
+
           {/* Logo */}
-          <a href="#" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 rounded-xl bg-primary flex items-center justify-center transition-transform duration-300 group-hover:scale-105">
-              <span className="text-primary-foreground font-display font-bold text-lg">V</span>
+          <Link to="/" className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-md bg-primary flex items-center justify-center">
+              <span className="text-white font-semibold text-sm">V</span>
             </div>
-            <span className="text-xl font-display font-bold text-foreground">
+            <span className="text-lg font-semibold text-foreground hidden sm:block">
               VisionEstate
             </span>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-muted-foreground hover:text-foreground transition-colors duration-300 text-sm font-medium relative after:absolute after:bottom-0 after:left-0 after:w-0 after:h-0.5 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
-              >
-                {link.name}
-              </a>
-            ))}
+          <div className="hidden md:flex items-center gap-8">
+            <div className="flex items-center gap-1">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className={`px-3 py-2 text-sm font-medium transition-colors ${isActive(link.href)
+                    ? "text-primary"
+                    : "text-muted-foreground hover:text-foreground"
+                    }`}
+                >
+                  {link.name}
+                </Link>
+              ))}
+            </div>
           </div>
 
           {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-3">
-            <Button variant="ghost" size="sm">
-              Sign In
-            </Button>
-            <Button variant="default" size="sm">
-              Get Started
-            </Button>
+          <div className="hidden md:flex items-center gap-3">
+            {user ? (
+              <>
+                {/* Admin Dashboard Button */}
+                {isAdmin && (
+                  <Link to="/admin">
+                    <Button variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-white">
+                      <ShieldCheck className="w-4 h-4 mr-1.5" />
+                      Admin
+                    </Button>
+                  </Link>
+                )}
+                <Link to="/profile">
+                  <Button variant="ghost" size="sm">
+                    <User className="w-4 h-4 mr-1.5" />
+                    {user.user_metadata?.full_name || user.email?.split('@')[0]}
+                  </Button>
+                </Link>
+                <Link to="/list-property">
+                  <Button size="sm" className="btn-black">
+                    <Plus className="w-4 h-4 mr-1.5" />
+                    List Property
+                  </Button>
+                </Link>
+                <Button variant="ghost" size="sm" onClick={handleSignOut}>
+                  <LogOut className="w-4 h-4" />
+                </Button>
+              </>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button variant="ghost" size="sm">
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/signup">
+                  <Button size="sm" className="btn-black">
+                    Sign Up
+                  </Button>
+                </Link>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 text-muted-foreground hover:text-foreground transition-colors"
+            className="md:hidden p-2 text-foreground"
+            aria-label="Toggle menu"
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-border animate-fade-in">
-            <div className="flex flex-col gap-2">
+          <div className="md:hidden py-4 border-t border-border bg-background">
+            <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
-                <a
+                <Link
                   key={link.name}
-                  href={link.href}
+                  to={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-muted-foreground hover:text-foreground hover:bg-secondary transition-all duration-300 text-sm font-medium py-3 px-4 rounded-xl"
+                  className={`py-3 px-2 text-sm font-medium transition-colors ${isActive(link.href)
+                    ? "text-primary"
+                    : "text-muted-foreground"
+                    }`}
                 >
                   {link.name}
-                </a>
+                </Link>
               ))}
-              <div className="flex flex-col gap-2 pt-4 mt-2 border-t border-border">
-                <Button variant="ghost" size="sm" className="justify-start">
-                  Sign In
-                </Button>
-                <Button variant="default" size="sm">
-                  Get Started
-                </Button>
-              </div>
+
+              {user ? (
+                <div className="flex flex-col gap-2 pt-4 mt-3 border-t border-border">
+                  <div className="px-2 py-2 text-sm text-muted-foreground flex items-center gap-2">
+                    <User className="w-4 h-4" />
+                    {user.email}
+                  </div>
+                  <Link to="/list-property" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button className="w-full btn-black">
+                      <Plus className="w-4 h-4 mr-2" />
+                      List Your Property
+                    </Button>
+                  </Link>
+                  <Button variant="outline" onClick={handleSignOut} className="w-full">
+                    <LogOut className="w-4 h-4 mr-2" />
+                    Sign Out
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex flex-col gap-2 pt-4 mt-3 border-t border-border">
+                  <Link to="/login" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button variant="outline" className="w-full">
+                      Login
+                    </Button>
+                  </Link>
+                  <Link to="/signup" onClick={() => setIsMobileMenuOpen(false)}>
+                    <Button className="w-full btn-black">
+                      Sign Up
+                    </Button>
+                  </Link>
+                </div>
+              )}
             </div>
           </div>
         )}

@@ -5,6 +5,8 @@ python-multipart
 pillow
 piexif 
 torch 
+segmentation-models-pytorch
+transformers
 torchvision 
 opencv-python
 timm

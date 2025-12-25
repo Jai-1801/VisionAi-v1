@@ -1,67 +1,104 @@
-import { Upload, Cpu, FileText, LineChart } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const steps = [
   {
-    icon: Upload,
-    title: "Upload Data",
-    description: "Submit property images, documents, and basic information through our secure interface.",
+    number: 1,
+    title: "Submit Property Details",
+    description: "Enter your property information and upload photos",
   },
   {
-    icon: Cpu,
-    title: "AI Processing",
-    description: "Our multimodal AI processes data through verification, reconstruction, and analysis modules.",
+    number: 2,
+    title: "AI Analysis",
+    description: "Our AI verifies area estimation and detects structural issues",
   },
   {
-    icon: FileText,
-    title: "Verification",
-    description: "Cross-validate ownership, calculate floor area, and detect defects automatically.",
+    number: 3,
+    title: "Pay ₹1,000",
+    description: "Complete the verification fee payment",
   },
   {
-    icon: LineChart,
-    title: "Get Insights",
-    description: "Receive comprehensive reports with value predictions and risk assessments.",
+    number: 4,
+    title: "Admin Approval",
+    description: "Our team reviews and approves your listing",
   },
+  {
+    number: 5,
+    title: "Go Live",
+    description: "Your verified property appears on the marketplace",
+  },
+];
+
+const features = [
+  "AI photo analysis",
+  "Area estimation",
+  "Crack detection",
+  "Document verification",
+  "Admin review",
+  "Verified badge",
 ];
 
 const HowItWorksSection = () => {
   return (
-    <section id="how-it-works" className="py-24 lg:py-32 relative overflow-hidden">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <section id="how-it-works" className="section-spacing bg-warm">
+      <div className="container-main">
         {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-16">
-          <span className="text-primary font-medium text-sm uppercase tracking-wider">Process</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mt-3 mb-5">
-            How it works
+        <div className="text-center max-w-xl mx-auto mb-12">
+          <span className="text-sm font-medium text-primary uppercase tracking-wide">
+            How It Works
+          </span>
+          <h2 className="text-foreground mt-3 mb-4">
+            Get verified in 5 simple steps
           </h2>
-          <p className="text-lg text-muted-foreground">
-            From upload to insight in four simple steps.
+          <p className="text-muted-foreground">
+            One plan, complete verification, trusted listings.
           </p>
         </div>
 
         {/* Steps */}
-        <div className="max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-2 gap-6 stagger-children">
-            {steps.map((step, index) => (
-              <div key={step.title} className="relative">
-                <div className="bg-card p-8 rounded-2xl border border-border hover-lift h-full">
-                  {/* Step Number */}
-                  <div className="flex items-center gap-4 mb-4">
-                    <span className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">
-                      {index + 1}
-                    </span>
-                    <step.icon className="w-5 h-5 text-muted-foreground" />
-                  </div>
-
-                  {/* Content */}
-                  <h3 className="text-lg font-display font-semibold text-foreground mb-2">
+        <div className="max-w-2xl mx-auto mb-12">
+          <div className="space-y-4">
+            {steps.map((step) => (
+              <div key={step.number} className="flex gap-4 items-start p-4 rounded-lg bg-card border">
+                <div className="w-8 h-8 rounded-full bg-foreground text-background flex items-center justify-center text-sm font-medium flex-shrink-0">
+                  {step.number}
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-medium text-foreground mb-1">
                     {step.title}
                   </h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">
+                  <p className="text-muted-foreground text-sm">
                     {step.description}
                   </p>
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Single Plan */}
+        <div className="max-w-md mx-auto">
+          <div className="p-6 rounded-lg border-2 border-foreground bg-card text-center">
+            <div className="text-sm font-medium text-foreground mb-2">Complete Verification</div>
+            <div className="text-4xl font-bold text-foreground mb-4">₹1,000</div>
+            <p className="text-sm text-muted-foreground mb-6">One-time payment for full verification</p>
+
+            <ul className="space-y-2 mb-6 text-left">
+              {features.map((feature) => (
+                <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Check className="w-4 h-4 text-foreground flex-shrink-0" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            <Link to="/list-property">
+              <Button className="w-full btn-black">
+                List Your Property
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
           </div>
         </div>
       </div>
