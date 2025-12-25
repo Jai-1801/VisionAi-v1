@@ -29,12 +29,6 @@ venv/
 ENV/
 env/
 
-# Large model files
-*.pt
-*.pth
-*.h5
-*.onnx
-
-# Backend data
+# Backend data (user uploads - not needed in repo)
 backend/uploads/
 backend/documents/
